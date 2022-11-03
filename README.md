@@ -10,7 +10,7 @@ Basic usage:<br>
 total = 100
 progBar = ProgBar(total=100-1)
 for _ in range(total):
-\tprogBar.display()
+    progBar.display()
 progBar.reset()
 myList = [progBar.display(returnObject=i) for i in range(total)]
 </pre>
