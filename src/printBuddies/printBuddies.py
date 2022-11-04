@@ -56,6 +56,10 @@ class ProgBar:
     line."""
     def __init__(self, total:float, fillCh:str='_', unfillCh:str='/',
                  widthRatio:float=0.75):
+        """ :param total: The number of calls to reach 100% completion.\n
+        :param fillCh: The character used to represent the completed part of the bar.\n
+        :param unfillCh: The character used to represent the uncompleted part of the bar.\n
+        :param widthRatio: The width of the progress bar relative to the width of the terminal window."""
         self.total = total
         self.fillCh = fillCh[0]
         self.unfillCh = unfillCh[0]
