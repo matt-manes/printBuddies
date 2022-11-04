@@ -3,6 +3,10 @@ from os import get_terminal_size
 from typing import Any
 from time import sleep
 
+def clear():
+    """ Erase the current line from the terminal. """
+    stdout.write(' '*(get_terminal_size().columns-1) + '\r')
+
 def printInPlace(string:str, animate:bool=False,
                  animateRefresh:float=0.01):
     """ Calls to printInPlace will overwrite 
@@ -14,20 +18,17 @@ def printInPlace(string:str, animate:bool=False,
     :param animateRefresh: Number of seconds 
     between the addition of characters
     when 'animate' is True."""
-    width = get_terminal_size().columns
-    #clear terminal line
-    stdout.write((' '*(width-1)) + '\r')
-    stdout.flush()
-    #trim string if it's wider than the terminal
-    string = string[:width-2]
+    clear()
     if animate:
         for i in range(len(string)):
             width = get_terminal_size().columns
             string = string[:width-2]
-            stdout.write(f'{string[:i]} \r')
+            stdout.write(f'{string[:i+1]} \r')
             stdout.flush()
             sleep(animateRefresh)
     else:
+        width = get_terminal_size().columns
+        string = string[:width-2]
         stdout.write(f'{string} \r')
         stdout.flush()
 
@@ -98,10 +99,6 @@ class ProgBar:
     
     def _getBar(self):
         return f'{self.prefix} [{self.filled}{self.unfilled}]-{self.percent}% {self.suffix} '
-    
-    def clear(self):
-        """ Erase the current line from the terminal. """
-        stdout.write(' '*(get_terminal_size().columns-1) + '\r')
     
     def display(self, prefix:str='', suffix:str='',
                 counterOverride:float=None, 
