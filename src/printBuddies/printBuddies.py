@@ -50,7 +50,7 @@ def ticker(info:str|list):
 
 class ProgBar:
     """ Self incrementing, dynamically sized progress bar.\n
-    Call ProgBar.clear() or print() after the last call to 
+    Call clear() or print() after the last call to 
     ProgBar.display(); otherwise, the next thing that
     tries to write to the terminal will print on the same
     line."""
