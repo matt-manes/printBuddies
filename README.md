@@ -16,3 +16,12 @@ progBar.reset()
 myList = [progBar.display(returnObject=i) for i in range(total)]
 </pre>
 <br>
+<br>
+printInPlace erases the current line in the terminal and then writes the value of 
+the 'string' param to the terminal.<br>
+<br>
+ticker prints a list of strings to the terminal with empty line top and bottom
+padding such that previous text in the terminal is no longer visible.<br>
+Visually functions as a multi-line version of printInPlace.<br>
+<br>
+clear simply clears the current line from the terminal.

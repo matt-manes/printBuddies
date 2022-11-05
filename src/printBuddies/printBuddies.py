@@ -32,15 +32,13 @@ def printInPlace(string:str, animate:bool=False,
         stdout.write(f'{string} \r')
         stdout.flush()
 
-def ticker(info:str|list):
+def ticker(info:list[str]):
     """ Prints info to terminal with
     top and bottom padding so that repeated 
     calls print info without showing previous
     outputs from ticker calls.\n
     Similar visually to printInPlace,
     but for multiple lines."""
-    if type(info) != list:
-        info = str(info).split('\n')
     height = get_terminal_size().lines-len(info)
     padLines = int((height - len(info))/2)
     print('\n'*padLines)
