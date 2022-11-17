@@ -1,7 +1,8 @@
-from sys import stdout
 from os import get_terminal_size
-from typing import Any
+from sys import stdout
 from time import sleep
+from typing import Any
+from loopTimer import Timer
 
 def clear():
     """ Erase the current line from the terminal. """
@@ -51,7 +52,10 @@ class ProgBar:
     Call clear() or print() after the last call to 
     ProgBar.display(); otherwise, the next thing that
     tries to write to the terminal will print on the same
-    line."""
+    line.\n
+    Includes a Timer object from loopTimer that starts timing
+    on the first call to display unless already manually started. 
+    Needs to be manually stopped when progress is complete."""
     def __init__(self, total:float, fillCh:str='_', unfillCh:str='/',
                  widthRatio:float=0.75):
         """ :param total: The number of calls to reach 100% completion.\n
@@ -62,6 +66,7 @@ class ProgBar:
         self.fillCh = fillCh[0]
         self.unfillCh = unfillCh[0]
         self.widthRatio = widthRatio
+        self.timer = Timer(subsecondFormat=True)
         self.reset()
     
     def reset(self):
@@ -116,6 +121,8 @@ class ProgBar:
         e.g.\n 
         progBar = ProgBar(9)\n
         myList = [progBar.display(returnObject=i) for i in range(10)]"""
+        if not self.timer.started:
+            self.timer.start()
         if counterOverride:
             self.counter = counterOverride
         if totalOverride:
