@@ -1,3 +1,6 @@
+Install with <pre>python -m pip install git+https://github.com/matt-manes/printBuddies</pre>
+Git must be installed and in your PATH.
+<br><br>
 A few utilities to do terminal printing tricks. <br>
 Contains one class and three functions: ProgBar, printInPlace, ticker, and clear.<br>
 <br>
