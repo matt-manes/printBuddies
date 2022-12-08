@@ -10,7 +10,7 @@ Basic usage:<br>
 <pre>
 from printBuddies import ProgBar
 total = 100
-progBar = ProgBar(total=100-1)
+progBar = ProgBar(total=total-1)
 for _ in range(total):
     progBar.display()
 progBar.reset()
@@ -29,8 +29,16 @@ for i in range(100):
     time.sleep(0.1)
 </pre>
 <br>
-ticker prints a list of strings to the terminal with empty line top and bottom
-padding such that previous text in the terminal is no longer visible.<br>
-Visually functions as a multi-line version of printInPlace.<br>
+ticker prints a list of strings to the terminal with empty lines above and below
+such that previous text in the terminal is no longer visible.<br>
+Visually, It functions as a multi-line version of printInPlace.<br>
+<pre>
+from printBuddies import ticker
+import time
+#This will produce visually the same output as the above example
+for i in range(100):
+    ticker([i])
+    time.sleep(0.1)
+</pre>
 <br>
 A call to clear() simply clears the current line from the terminal.
