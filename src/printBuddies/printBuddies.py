@@ -1,66 +1,71 @@
+from loopTimer import Timer
 from os import get_terminal_size
-from sys import stdout
 from time import sleep
 from typing import Any
-from loopTimer import Timer
 
 def clear():
     """ Erase the current line from the terminal. """
-    stdout.write(' '*(get_terminal_size().columns-1) + '\r')
+    print(' '*(get_terminal_size().columns-1), flush=True, end='\r')
 
 def printInPlace(string:str, animate:bool=False,
                  animateRefresh:float=0.01):
     """ Calls to printInPlace will overwrite 
     the previous line of text in the terminal
-    with the 'string' param.\n
+    with the 'string' param.
+    
     :param animate: Will cause the string
     to be printed to the terminal 
-    one character at a time.\n
+    one character at a time.
+    
     :param animateRefresh: Number of seconds 
     between the addition of characters
     when 'animate' is True."""
     clear()
+    string = str(string)
     if animate:
         for i in range(len(string)):
             width = get_terminal_size().columns
             string = string[:width-2]
-            stdout.write(f'{string[:i+1]} \r')
-            stdout.flush()
+            print(f'{string[:i+1]}', flush=True, end=' \r')
             sleep(animateRefresh)
     else:
         width = get_terminal_size().columns
         string = string[:width-2]
-        stdout.write(f'{string} \r')
-        stdout.flush()
+        print(string, flush=True, end='\r')
 
 def ticker(info:list[str]):
     """ Prints info to terminal with
     top and bottom padding so that repeated 
     calls print info without showing previous
-    outputs from ticker calls.\n
+    outputs from ticker calls.
+    
     Similar visually to printInPlace,
     but for multiple lines."""
+    info = [str(line) for line in info]
     height = get_terminal_size().lines-len(info)
-    padLines = int((height - len(info))/2)
-    print('\n'*padLines)
-    for line in info:
-        print(line)
-    print('\n'*padLines)
+    print('\n'*(height*2), end='')
+    print(*info, sep='\n', end='')
+    print('\n'*(int((height )/2)), end='')
 
 class ProgBar:
-    """ Self incrementing, dynamically sized progress bar.\n
+    """ Self incrementing, dynamically sized progress bar.
+    
     Call clear() or print() after the last call to 
     ProgBar.display(); otherwise, the next thing that
     tries to write to the terminal will print on the same
-    line.\n
+    line.
+    
     Includes a Timer object from loopTimer that starts timing
     on the first call to display unless already manually started. 
     Needs to be manually stopped when progress is complete."""
     def __init__(self, total:float, fillCh:str='_', unfillCh:str='/',
                  widthRatio:float=0.75):
-        """ :param total: The number of calls to reach 100% completion.\n
-        :param fillCh: The character used to represent the completed part of the bar.\n
-        :param unfillCh: The character used to represent the uncompleted part of the bar.\n
+        """ :param total: The number of calls to reach 100% completion.
+        
+        :param fillCh: The character used to represent the completed part of the bar.
+        
+        :param unfillCh: The character used to represent the uncompleted part of the bar.
+        
         :param widthRatio: The width of the progress bar relative to the width of the terminal window."""
         self.total = total
         self.fillCh = fillCh[0]
@@ -99,27 +104,37 @@ class ProgBar:
     
     def _trimBar(self):
         originalRatio = self.widthRatio
-        while len(self.bar) > self.terminalWidth:
+        while len(self.bar) > self.terminalWidth\
+        and self.widthRatio > 0:
             self.widthRatio -= 0.01
             self._prepareBar()
         self.widthRatio = originalRatio
     
     def _getBar(self):
-        return f'{self.prefix} [{self.filled}{self.unfilled}]-{self.percent}% {self.suffix} '
+        return f'{self.prefix} [{self.filled}{self.unfilled}]-{self.percent}% {self.suffix}'
     
     def display(self, prefix:str='', suffix:str='',
                 counterOverride:float=None, 
                 totalOverride:float=None,
                 returnObject:Any=None)->Any:
-        """ Writes the progress bar to the terminal.\n
-        :param prefix: String affixed to the front of the progress bar.\n
-        :param suffix: String appended to the end of the progress bar.\n
-        :param counterOverride: When an externally incremented completion counter is needed.\n
-        :param totalOverride: When an externally controlled bar total is needed.\n
-        :param returnObject: An object to be returned by display().\n
-        Allows display() to be called within a comprehension:\n
-        e.g.\n 
-        progBar = ProgBar(9)\n
+        """ Writes the progress bar to the terminal.
+        
+        :param prefix: String affixed to the front of the progress bar.
+        
+        :param suffix: String appended to the end of the progress bar.
+        
+        :param counterOverride: When an externally incremented completion counter is needed.
+        
+        :param totalOverride: When an externally controlled bar total is needed.
+        
+        :param returnObject: An object to be returned by display().
+        
+        Allows display() to be called within a comprehension:
+        
+        e.g.
+        
+        progBar = ProgBar(9)
+        
         myList = [progBar.display(returnObject=i) for i in range(10)]"""
         if not self.timer.started:
             self.timer.start()
@@ -135,7 +150,6 @@ class ProgBar:
         self._prepareBar()
         self._trimBar()
         pad = ' ' * (self.terminalWidth-len(self.bar))
-        stdout.write(f"{self.bar}{pad}\r")
-        stdout.flush()
+        print(f'{self.bar}{pad}', flush=True, end='\r')
         self.counter += 1
         return returnObject

@@ -9,6 +9,6 @@ hatch.metadata.allow-direct-references = true
 name = "printBuddies"
 authors = [{name='Matt Manes'}]
 description = "Handful of utilities to do printing tricks to the terminal."
-version = "0.0.2"
+version = "0.0.3"
 requires-python = ">=3.7"
 dependencies = ["loopTimer @ git+https://github.com/matt-manes/loopTimer.git"]
