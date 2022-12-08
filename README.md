@@ -8,6 +8,7 @@ so it will be resized automatically if the terminal width is changed.<br>
 The display function has a 'returnObject' parameter, allowing ProgBar to be used in comprehensions.<br>
 Basic usage:<br>
 <pre>
+from printBuddies import ProgBar
 total = 100
 progBar = ProgBar(total=100-1)
 for _ in range(total):
@@ -19,9 +20,17 @@ myList = [progBar.display(returnObject=i) for i in range(total)]
 <br>
 printInPlace erases the current line in the terminal and then writes the value of 
 the 'string' param to the terminal.<br>
+<pre>
+from printBuddies import printInPlace
+import time
+#This will print numbers 0-99 to the terminal with each digit overwriting the last.
+for i in range(100):
+    printInPlace(i)
+    time.sleep(0.1)
+</pre>
 <br>
 ticker prints a list of strings to the terminal with empty line top and bottom
 padding such that previous text in the terminal is no longer visible.<br>
 Visually functions as a multi-line version of printInPlace.<br>
 <br>
-clear simply clears the current line from the terminal.
+A call to clear() simply clears the current line from the terminal.
