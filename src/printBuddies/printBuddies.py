@@ -24,15 +24,13 @@ def printInPlace(string: str, animate: bool = False, animateRefresh: float = 0.0
     when 'animate' is True."""
     clear()
     string = str(string)
+    width = get_terminal_size().columns
+    string = string[: width - 2]
     if animate:
         for i in range(len(string)):
-            width = get_terminal_size().columns
-            string = string[: width - 2]
             print(f"{string[:i+1]}", flush=True, end=" \r")
             sleep(animateRefresh)
     else:
-        width = get_terminal_size().columns
-        string = string[: width - 2]
         print(string, flush=True, end="\r")
 
 
@@ -44,7 +42,8 @@ def ticker(info: list[str]):
 
     Similar visually to printInPlace,
     but for multiple lines."""
-    info = [str(line) for line in info]
+    width = get_terminal_size.columns
+    info = [str(line)[: width - 1] for line in info]
     height = get_terminal_size().lines - len(info)
     print("\n" * (height * 2), end="")
     print(*info, sep="\n", end="")
@@ -163,6 +162,7 @@ class ProgBar:
         self._prepareBar()
         self._trimBar()
         pad = " " * (self.terminalWidth - len(self.bar))
-        print(f"{self.bar}{pad}", flush=True, end="\r")
+        width = get_terminal_size().columns
+        print(f"{self.bar}{pad}"[: width - 2], flush=True, end="\r")
         self.counter += 1
         return returnObject
