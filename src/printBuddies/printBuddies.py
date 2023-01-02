@@ -42,7 +42,7 @@ def ticker(info: list[str]):
 
     Similar visually to printInPlace,
     but for multiple lines."""
-    width = get_terminal_size.columns
+    width = get_terminal_size().columns
     info = [str(line)[: width - 1] for line in info]
     height = get_terminal_size().lines - len(info)
     print("\n" * (height * 2), end="")
